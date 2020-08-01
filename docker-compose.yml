@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  redis:
+    image: redis
+  rabbitmq:
+    build:
+      context: .
+      dockerfile: Dockerfile-rabbitmq
+    environment:
+      RABBITMQ_SSL_FAIL_IF_NO_PEER_CERT: false
+  sensu:
+    build:
+      context: .
+      dockerfile: Dockerfile-sensu
+    links:
+      - rabbitmq
+      - redis
+  uchiwa:
+    build:
+      context: .
+      dockerfile: Dockerfile-uchiwa
+    ports:
+      - "3000:3000"
+    links:
+      - sensu

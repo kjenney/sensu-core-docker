@@ -1,0 +1,3 @@
+FROM rabbitmq
+
+RUN apt update && apt install -y net-tools netcat iputils-ping && apt clean
